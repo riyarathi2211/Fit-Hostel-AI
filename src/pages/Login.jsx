@@ -8,37 +8,33 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-   
+    try {
+      const data = await loginUser({
+        email,
+        password
+      });
+      console.log("Login Response:", data);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    const data = await loginUser({
-      email,
-      password
-    });
-   console.log("Login Response:",data);
-    // Save token
-  if (data.token) {
-      localStorage.setItem("token", data.token); // Matches authService.js
-      const user = data.user||data;
-      if(user.weight){
-
-      
-      navigate("/dashboard");
-      }else{
-        navigate("/user-info");
+      if (data.token) {
+        // Use sessionStorage instead of localStorage for tab isolation
+        sessionStorage.setItem("token", data.token);
+        const user = data.user || data;
+        
+        if (user.weight) {
+          navigate("/dashboard");
+        } else {
+          navigate("/user-info");
+        }
+      } else {
+        setError("Token not received from server");
       }
-    } else {
-      setError("Token not received from server");
+    } catch (err) {
+      setError(err.message);
     }
-  } catch (err) {
-    setError(err.message);
-  }
-};
-  
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0a1627]">
@@ -48,6 +44,7 @@ const handleSubmit = async (e) => {
       >
         <h2 className="text-3xl font-bold text-white mb-2">Welcome back</h2>
         <p className="text-gray-400 mb-6">Enter your details to sign in.</p>
+        
         <label className="block text-gray-300 mb-1">Email Address</label>
         <input
           type="email"
@@ -57,6 +54,7 @@ const handleSubmit = async (e) => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        
         <label className="block text-gray-300 mb-1">Password</label>
         <input
           type="password"
@@ -66,7 +64,8 @@ const handleSubmit = async (e) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <div className="flex justify-end mb-4">
+        
+        {/* <div className="flex justify-end mb-4">
           <button
             type="button"
             className="text-blue-400 text-sm hover:underline"
@@ -74,17 +73,22 @@ const handleSubmit = async (e) => {
           >
             Forgot password?
           </button>
-        </div>
+        </div> */}
+        
         {error && <div className="text-red-400 mb-2 text-sm">{error}</div>}
+        
         <button
           type="submit"
           className="w-full py-3 rounded bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold text-lg mb-4 hover:opacity-90 transition"
         >
           Sign In
         </button>
+        
         <div className="text-center text-gray-400">
           Don't have an account?{' '}
-          <span className="text-white font-semibold cursor-pointer hover:underline" onClick={() => navigate('/signup')}>Sign up</span>
+          <span className="text-white font-semibold cursor-pointer hover:underline" onClick={() => navigate('/signup')}>
+            Sign up
+          </span>
         </div>
       </form>
     </div>

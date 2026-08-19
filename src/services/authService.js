@@ -1,21 +1,23 @@
+// src/services/authService.js
+import axios from "axios";
+
 const API_URL = "http://localhost:5000/api/auth";
+
+// Helper function to safely pull token from either storage
+const getAuthToken = () => {
+  return sessionStorage.getItem("token") || localStorage.getItem("token");
+};
 
 // REGISTER USER
 export const registerUser = async (userData) => {
   const response = await fetch(`${API_URL}/register`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(userData)
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userData),
   });
 
   const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-
+  if (!response.ok) throw new Error(data.message);
   return data;
 };
 
@@ -23,52 +25,53 @@ export const registerUser = async (userData) => {
 export const loginUser = async (userData) => {
   const response = await fetch(`${API_URL}/login`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(userData)
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userData),
   });
 
   const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-
-  return data;
-}; 
-// GET USER PROFILE
-export const getUserProfile = async () => {
-
-  const token = localStorage.getItem("token");
-
-  const response = await fetch(`${API_URL}/profile`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message);
+  if (!response.ok) throw new Error(data.message);
+  
+  // Storing token safely (Choose one primary storage or allow both)
+  if (data.token) {
+    sessionStorage.setItem("token", data.token);
+    localStorage.setItem("token", data.token);
   }
 
   return data;
 };
 
-// ... (your existing login/register code)
+// GET USER PROFILE
+export const getUserProfile = async () => {
+  const token = getAuthToken();
 
+  if (!token) {
+    throw new Error("No authorization token found");
+  }
+
+  // Updated to full backend URL instead of relative path
+  const response = await axios.get(`${API_URL}/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
+
+// UPDATE USER PROFILE
 export const updateProfile = async (profileData) => {
-  const token = localStorage.getItem("token");
+  const token = getAuthToken();
+
+  if (!token) {
+    throw new Error("No authorization token found");
+  }
 
   const response = await fetch(`${API_URL}/update-profile`, {
-    method: "PUT", // Use PUT for updates
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, // Crucial for the 'protect' middleware
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(profileData),
   });
@@ -79,5 +82,5 @@ export const updateProfile = async (profileData) => {
     throw new Error(data.message || "Failed to update profile");
   }
 
-  return data; // This returns the updated user object
+  return data;
 };

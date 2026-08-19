@@ -1,11 +1,25 @@
 import express from 'express';
-import { registerUser, loginUser } from '../controllers/authController.js';
-import { getUserProfile } from '../controllers/authController.js';  
-import protect from '../middleware/authMiddleware.js';
-import { updateProfile } from '../controllers/authController.js'; // Import the new controller function
+import {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  updateProfile,
+  getMonthlyWeightHistory,
+  logMonthlyWeight
+} from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-router.get('/profile', protect, getUserProfile);
+
 router.post('/register', registerUser);
 router.post('/login', loginUser);
-router.put('/update-profile', protect, updateProfile);
+router.get('/profile', protect, getUserProfile);
+
+// Match both route paths
+router.put('/profile', protect, updateProfile);
+router.put('/update-profile', protect, updateProfile); 
+
+router.get('/monthly-weight-history', protect, getMonthlyWeightHistory);
+router.post('/log-monthly-weight', protect, logMonthlyWeight);
+
 export default router;

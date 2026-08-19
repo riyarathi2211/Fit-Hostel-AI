@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/authService";
 
 const Signup = () => {
-  const [name,setName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -11,37 +11,41 @@ const Signup = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       setSuccess("");
       return;
     }
-    // Simulate user registration (replace with your own logic)
-     try {
-    const data = await registerUser({
-      name,
-      email,
-      password
-    });
 
-    setError("");
-    setSuccess(data.message);
+    try {
+      const data = await registerUser({
+        name,
+        email,
+        password
+      });
 
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+      if (data.token) {
+        // Use sessionStorage instead of localStorage for tab isolation
+        sessionStorage.setItem("token", data.token);
+      }
 
-    // Redirect to login after signup
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
+      setError("");
+      setSuccess(data.message || "Account created successfully!");
 
-  } catch (err) {
-    setError(err.message);
-    setSuccess("");
-  }
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+
+      setTimeout(() => {
+        navigate("/user-info");
+      }, 1000);
+
+    } catch (err) {
+      setError(err.message);
+      setSuccess("");
+    }
   };
 
   return (
@@ -52,6 +56,7 @@ const Signup = () => {
       >
         <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
         <p className="text-gray-400 mb-6">Sign up to get started.</p>
+        
         <label className="block text-gray-300 mb-1">Full Name</label>
         <input
           type="text"
@@ -71,6 +76,7 @@ const Signup = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+
         <label className="block text-gray-300 mb-1">Password</label>
         <input
           type="password"
@@ -80,6 +86,7 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
         <label className="block text-gray-300 mb-1">Confirm Password</label>
         <input
           type="password"
@@ -89,17 +96,25 @@ const Signup = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
+
         {error && <div className="text-red-400 mb-2 text-sm">{error}</div>}
         {success && <div className="text-green-400 mb-2 text-sm">{success}</div>}
+
         <button
           type="submit"
           className="w-full py-3 rounded bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold text-lg mb-4 hover:opacity-90 transition"
         >
           Sign Up
         </button>
+
         <div className="text-center text-gray-400">
           Already have an account?{' '}
-          <span className="text-white font-semibold cursor-pointer hover:underline" onClick={() => navigate('/')}>Sign in</span>
+          <span 
+            className="text-white font-semibold cursor-pointer hover:underline" 
+            onClick={() => navigate('/')}
+          >
+            Sign in
+          </span>
         </div>
       </form>
     </div>
