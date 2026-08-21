@@ -20,20 +20,30 @@ connectDB();
 
 const app = express();
 
-// Middleware
+// Allowed explicit domains
+const allowedOrigins = [
+  "https://fit-hostel-ai.vercel.app",
+  "http://localhost:5173"
+];
+
 // Middleware
 app.use(cors({
-  origin: [
-    "https://fit-hostel-ai.vercel.app",
-    "http://localhost:5173"
-  ],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g., Postman, mobile apps) or matching Vercel/Local origins
+    if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
+
 app.use(express.json());
 
 // API Endpoints
 app.use("/api/auth", authRoutes);
-app.use("/api/user", authRoutes); // Added: Mount auth/user routes under /api/user as well
+app.use("/api/user", authRoutes);
 app.use("/api/workout", workoutRoutes);
 app.use("/api/diet", dietRoutes);
 app.use("/api/progress", progressRoutes);
