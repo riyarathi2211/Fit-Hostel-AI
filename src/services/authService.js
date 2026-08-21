@@ -5,7 +5,15 @@ import API from "../api/axios";
 export const registerUser = async (userData) => {
   try {
     const response = await API.post("/auth/register", userData);
-    return response.data;
+    const data = response.data;
+
+    // Store token on successful registration
+    if (data.token) {
+      sessionStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token);
+    }
+
+    return data;
   } catch (error) {
     throw new Error(error.response?.data?.message || "Registration failed");
   }
@@ -48,4 +56,10 @@ export const updateProfile = async (profileData) => {
   } catch (error) {
     throw new Error(error.response?.data?.message || "Failed to update profile");
   }
+};
+
+// LOGOUT USER
+export const logoutUser = () => {
+  sessionStorage.removeItem("token");
+  localStorage.removeItem("token");
 };
