@@ -25,21 +25,27 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, password, age, height, weight, gender, target } = req.body;
 
+    // Strict Field Validation
     if (!name || !email || !password) {
-      return res.status(400).json({ message: "Name, email, and password are required." });
+      return res.status(400).json({ 
+        message: "Missing required fields. Please provide name, email, and password." 
+      });
     }
 
-    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+    const trimmedEmail = email.toLowerCase().trim();
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email: trimmedEmail });
     if (existingUser) {
-      return res.status(400).json({ message: "User already registered with this email account." });
+      return res.status(400).json({ 
+        message: "User already registered with this email account." 
+      });
     }
 
+    // Parse and sanitize input metrics
     const userWeight = weight !== undefined && weight !== null && !isNaN(Number(weight))
       ? Number(weight)
       : 0;
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
 
     const metrics = {
       age: parseInt(age, 10) || 0,
@@ -49,6 +55,11 @@ export const registerUser = async (req, res) => {
       target: target ? target.toLowerCase().trim() : 'general fitness'
     };
 
+    // Hash Password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Optional Automatic AI Workout/Diet Plan Generation
     let automaticPlan = null;
     if (metrics.weight > 0 && metrics.height > 0) {
       try {
@@ -65,9 +76,10 @@ export const registerUser = async (req, res) => {
       ? calculateIdealWeight(metrics.height, metrics.gender) 
       : userWeight;
 
+    // Create New User Document
     const newUser = new User({
-      name,
-      email: email.toLowerCase().trim(),
+      name: name.trim(),
+      email: trimmedEmail,
       password: hashedPassword,
       ...metrics,
       targetWeight: initialTargetWeight,
@@ -84,6 +96,7 @@ export const registerUser = async (req, res) => {
 
     await newUser.save();
 
+    // Generate JWT Access Token
     const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     res.status(201).json({
@@ -118,7 +131,12 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email?.toLowerCase().trim() });
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please provide both email and password." });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
@@ -149,7 +167,8 @@ export const loginUser = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Login Exception:", error.message);
+    res.status(500).json({ message: "Server error during login", error: error.message });
   }
 };
 
@@ -171,7 +190,7 @@ export const getUserProfile = async (req, res) => {
 
     res.status(200).json({ user: userObj });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({ message: "Server error fetching profile", error: error.message });
   }
 };
 
@@ -244,7 +263,7 @@ export const updateProfile = async (req, res) => {
     const lastPlanDate = user.lastCheckInDate ? new Date(user.lastCheckInDate).getTime() : 0;
     const isOneMonthPassed = (now.getTime() - lastPlanDate) >= ONE_MONTH_MS;
 
-    // Only recalculate plan if 1 month has passed OR explicitly requested via force flag
+    // Recalculate plan if 1 month passed OR explicitly requested via flag
     if ((metricsChanged && isOneMonthPassed) || regeneratePlan || !user.savedWorkoutPlan) {
       try {
         const metrics = {
@@ -255,7 +274,7 @@ export const updateProfile = async (req, res) => {
           target: user.target
         };
         user.savedWorkoutPlan = await generatePersonalizedPlan(metrics);
-        user.lastCheckInDate = now; // Update timestamp to reset the 1-month countdown
+        user.lastCheckInDate = now;
         user.markModified('savedWorkoutPlan');
       } catch (planErr) {
         console.error("Failed to regenerate workout plan:", planErr.message);
@@ -309,6 +328,10 @@ export const logMonthlyWeight = async (req, res) => {
   try {
     const userId = req.userId;
     const { weight } = req.body;
+
+    if (weight === undefined || isNaN(Number(weight))) {
+      return res.status(400).json({ message: "Please provide a valid numeric weight." });
+    }
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });

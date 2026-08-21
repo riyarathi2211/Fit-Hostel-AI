@@ -26,8 +26,8 @@ const allowedOrigins = [
   "http://localhost:5173"
 ];
 
-// Middleware
-app.use(cors({
+// Configure CORS Options
+const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g., Postman, mobile apps) or matching Vercel/Local origins
     if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
@@ -36,8 +36,14 @@ app.use(cors({
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true
-}));
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+
+// Enable preflight across all routes
+app.options("*", cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
