@@ -1,6 +1,6 @@
 // src/components/DailyCheckInModal.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../api/axios';
 
 function DailyCheckInModal({ onUpdateComplete }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ function DailyCheckInModal({ onUpdateComplete }) {
   useEffect(() => {
     checkEligibility();
 
-    // Poll eligibility every 60 seconds (or hourly) to check 1-day completion
+    // Poll eligibility every 60 seconds to check 1-day completion
     const interval = setInterval(() => {
       checkEligibility();
     }, 60000);
@@ -22,10 +22,8 @@ function DailyCheckInModal({ onUpdateComplete }) {
 
   const checkEligibility = async () => {
     try {
-      const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/auth/profile', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // API instance automatically handles authorization token
+      const res = await API.get('/auth/profile');
 
       const userData = res.data?.user || res.data || {};
       const lastCheckIn = new Date(userData.lastCheckInDate || 0);
@@ -47,12 +45,7 @@ function DailyCheckInModal({ onUpdateComplete }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const res = await axios.post(
-        'http://localhost:5000/api/progress/daily-checkin',
-        { weight, height, feedback },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await API.post('/progress/daily-checkin', { weight, height, feedback });
 
       setSummaryData(res.data);
       window.dispatchEvent(new Event('workoutPlanUpdated'));

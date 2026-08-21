@@ -1,6 +1,6 @@
 // src/pages/WorkoutPage.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api/axios";
 import { getWgerExerciseData } from "../services/wgerService";
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=500&auto=format&fit=crop&q=60";
@@ -14,13 +14,9 @@ function WorkoutPage() {
   useEffect(() => {
     const fetchFullBlueprint = async () => {
       try {
-        // Changed localStorage -> sessionStorage
-        const token = sessionStorage.getItem("token");
-
-        // 1. Fetch user routine blueprint from backend
-        const workoutRes = await axios.get("http://localhost:5000/api/workout/my-plan", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        // 1. Fetch user routine blueprint from backend relative endpoint
+        // Authorization header and token extraction are handled globally by API interceptors
+        const workoutRes = await API.get("/workout/my-plan");
 
         const rawSchedule = workoutRes.data?.schedule || workoutRes.data?.workoutPlan || [];
         setMeta(workoutRes.data?.meta || {});
@@ -184,7 +180,7 @@ function WorkoutPage() {
                               ))}
                             </div>
                           ) : (
-                            /* GRAPHIC PLACEHOLDER (Fallback visual if no API image is returned) */
+                            /* GRAPHIC PLACEHOLDER */
                             <div className="bg-slate-900/80 p-4 rounded-xl border border-gray-800/60 flex flex-col items-center justify-center text-center py-6 gap-3">
                               <div className="h-44 w-full max-w-sm flex items-center justify-center overflow-hidden rounded-lg bg-slate-950 p-2 border border-gray-800/40">
                                 <img

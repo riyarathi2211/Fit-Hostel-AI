@@ -1,6 +1,6 @@
 // src/pages/MessMenu.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../api/axios';
 
 function MessMenu() {
   const [weeklyData, setWeeklyData] = useState(null);
@@ -13,11 +13,8 @@ function MessMenu() {
   useEffect(() => {
     const fetchFullWeekDiet = async () => {
       try {
-        // Changed localStorage -> sessionStorage
-        const token = sessionStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/diet/my-weekly-diet', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        // API instance handles base URL and Authorization headers automatically
+        const response = await API.get('/diet/my-weekly-diet');
         setWeeklyData(response.data);
         
         // Default behavior: Automatically expand today's card on initial load

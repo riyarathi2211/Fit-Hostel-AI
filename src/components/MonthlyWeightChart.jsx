@@ -1,6 +1,6 @@
 // src/components/MonthlyWeightChart.jsx (Testing Mode)
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api/axios";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 
 function MonthlyWeightChart() {
@@ -23,10 +23,7 @@ function MonthlyWeightChart() {
 
   const fetchWeightHistory = async () => {
     try {
-      const token = sessionStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/user/monthly-weight-history", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await API.get("/user/monthly-weight-history");
 
       const historyData = res.data?.history || [];
       const userTarget = res.data?.idealTarget || 72;
@@ -44,12 +41,9 @@ function MonthlyWeightChart() {
     if (!newWeight || isNaN(newWeight)) return;
 
     try {
-      const token = sessionStorage.getItem("token");
-      const res = await axios.post(
-        "http://localhost:5000/api/user/log-monthly-weight",
-        { weight: parseFloat(newWeight) },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await API.post("/user/log-monthly-weight", {
+        weight: parseFloat(newWeight)
+      });
 
       // Add newly submitted weight entry to local state and update chart instantly
       const updatedHistory = res.data?.history || [

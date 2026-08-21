@@ -1,6 +1,6 @@
 // src/pages/Profile.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../api/axios';
 import ProgressTracker from '../components/ProgressTracker.jsx';
 
 function Profile() {
@@ -24,22 +24,10 @@ function Profile() {
     fetchProfile();
   }, [refreshKey]);
 
-  const getAuthToken = () => {
-    return sessionStorage.getItem('token') || localStorage.getItem('token');
-  };
-
   const fetchProfile = async () => {
     try {
-      const token = getAuthToken();
-      if (!token) {
-        setError('No authorization token found. Please log in again.');
-        setLoading(false);
-        return;
-      }
-
-      const response = await axios.get('http://localhost:5000/api/auth/profile', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // Base URL and Bearer Token are handled automatically by the API interceptor
+      const response = await API.get('/auth/profile');
 
       const userData = response.data?.user || response.data || {};
       setProfileData(userData);
@@ -70,9 +58,6 @@ function Profile() {
     setError('');
     setSuccessMessage('');
 
-    const token = getAuthToken();
-    const headers = { Authorization: `Bearer ${token}` };
-
     try {
       const payload = {
         age: Number(formData.age),
@@ -83,11 +68,7 @@ function Profile() {
         regeneratePlan: true
       };
 
-      const response = await axios.put(
-        'http://localhost:5000/api/auth/profile',
-        payload,
-        { headers }
-      );
+      const response = await API.put('/auth/profile', payload);
 
       const updatedUser = response.data?.user || response.data;
 

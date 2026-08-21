@@ -1,6 +1,6 @@
 // src/pages/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../api/axios';
 import {
   LineChart,
   Line,
@@ -45,12 +45,8 @@ function Dashboard() {
 
   const fetchUserData = async () => {
     try {
-      const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      if (!token) return setLoading(false);
-
-      const response = await axios.get('http://localhost:5000/api/auth/profile', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // API instance handles base URL and Authorization headers automatically
+      const response = await API.get('/auth/profile');
 
       const user = response.data?.user || response.data || {};
       const schedule = user.savedWorkoutPlan?.schedule || [];
@@ -102,7 +98,7 @@ function Dashboard() {
       setTodayRoutine(matchedDay);
     } catch (err) {
       console.error("Failed to load user profile and workout data:", err);
-    } finally {
+    } font-mono finally {
       setLoading(false);
     }
   };

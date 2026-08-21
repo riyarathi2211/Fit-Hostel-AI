@@ -1,6 +1,6 @@
 // src/components/ProgressTracker.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import API from '../api/axios';
 import {
   LineChart,
   Line,
@@ -18,16 +18,10 @@ function ProgressTracker({ userData, refreshKey }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const getAuthToken = () => sessionStorage.getItem('token') || localStorage.getItem('token');
-
   const fetchWeightHistory = useCallback(async () => {
     try {
-      const token = getAuthToken();
-      if (!token) return setLoading(false);
-
-      const response = await axios.get('http://localhost:5000/api/auth/monthly-weight-history', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // Axios instance automatically attaches JWT token and uses production baseURL
+      const response = await API.get('/auth/monthly-weight-history');
 
       const historyData = response.data?.history || response.data?.monthlyWeightLogs || [];
       setLogs(historyData);
@@ -80,13 +74,7 @@ function ProgressTracker({ userData, refreshKey }) {
     setError('');
 
     try {
-      const token = getAuthToken();
-      
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/log-monthly-weight',
-        { weight: numericWeight },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await API.post('/auth/log-monthly-weight', { weight: numericWeight });
 
       const updatedLogs = response.data?.history || response.data?.monthlyWeightLogs || [];
       setLogs(updatedLogs);
