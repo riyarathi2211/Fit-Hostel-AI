@@ -98,7 +98,7 @@ function Dashboard() {
       setTodayRoutine(matchedDay);
     } catch (err) {
       console.error("Failed to load user profile and workout data:", err);
-    } font-mono finally {
+    } finally {
       setLoading(false);
     }
   };
