@@ -83,8 +83,8 @@ function WorkoutPage() {
 
   if (loading) {
     return (
-      <div className="p-8 max-w-7xl mx-auto space-y-4 font-mono">
-        <div className="p-6 bg-[#17223b] rounded-2xl border border-gray-800 animate-pulse text-gray-400 text-sm">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-4 font-mono">
+        <div className="p-6 bg-[#17223b] rounded-2xl border border-gray-800 animate-pulse text-gray-400 text-xs sm:text-sm">
           Fetching full weekly training blueprint & live exercise visuals...
         </div>
       </div>
@@ -92,10 +92,10 @@ function WorkoutPage() {
   }
 
   return (
-    <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto text-white">
       {/* HEADER SECTION */}
-      <div className="bg-[#17223b] border border-gray-800 p-6 rounded-2xl shadow-xl space-y-3">
-        <h1 className="text-2xl font-black text-white uppercase tracking-wide">
+      <div className="bg-[#17223b] border border-gray-800 p-4 sm:p-6 rounded-2xl shadow-xl space-y-2 sm:space-y-3">
+        <h1 className="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">
           Training Blueprint
         </h1>
         <div className="flex flex-wrap items-center gap-3 text-xs">
@@ -106,17 +106,17 @@ function WorkoutPage() {
       </div>
 
       {/* SCHEDULE DAYS LOOP */}
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         {schedule.map((dayData, dayIdx) => (
-          <div key={dayIdx} className="bg-[#17223b] border border-gray-800 p-6 rounded-2xl shadow-xl space-y-6">
+          <div key={dayIdx} className="bg-[#17223b] border border-gray-800 p-4 sm:p-6 rounded-2xl shadow-xl space-y-4 sm:space-y-6">
             <div className="border-b border-gray-800 pb-3">
-              <h2 className="text-base font-bold text-cyan-400 uppercase tracking-wider">
-                {dayData.day || `Day ${dayIdx + 1}`}{" "}
+              <h2 className="text-sm sm:text-base font-bold text-cyan-400 uppercase tracking-wider flex flex-wrap items-center gap-1">
+                <span>{dayData.day || `Day ${dayIdx + 1}`}</span>
                 <span className="text-gray-400 font-normal lowercase">— {dayData.focus || "Target Session"}</span>
               </h2>
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 sm:gap-4">
               {dayData.exercises.map((ex, exIdx) => {
                 const itemKey = `${dayIdx}-${exIdx}`;
                 const isExpanded = expandedKey === itemKey;
@@ -129,22 +129,22 @@ function WorkoutPage() {
                       isExpanded
                         ? "border-cyan-500/60 shadow-lg shadow-cyan-950/20"
                         : "border-gray-800/80 hover:border-gray-700"
-                    } p-5 rounded-xl transition-all cursor-pointer space-y-4`}
+                    } p-4 sm:p-5 rounded-xl transition-all cursor-pointer space-y-4`}
                   >
                     {/* EXERCISE HEADER */}
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4">
                       <div>
-                        <h3 className="text-base font-bold text-cyan-400 capitalize">{ex.name}</h3>
-                        <p className="text-xs text-gray-400 mt-1">
+                        <h3 className="text-sm sm:text-base font-bold text-cyan-400 capitalize">{ex.name}</h3>
+                        <p className="text-xs text-gray-400 mt-0.5 sm:mt-1">
                           Target: <span className="text-gray-200 capitalize font-medium">{ex.target}</span>
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs bg-cyan-500/10 text-cyan-300 px-3 py-1 rounded-md border border-cyan-500/20 font-mono font-bold whitespace-nowrap">
+                      <div className="flex items-center justify-between w-full sm:w-auto gap-3">
+                        <span className="text-[11px] sm:text-xs bg-cyan-500/10 text-cyan-300 px-2.5 py-1 rounded-md border border-cyan-500/20 font-mono font-bold whitespace-nowrap">
                           {ex.sets} • {ex.reps}
                         </span>
-                        <span className="text-gray-400 text-sm font-black">
+                        <span className="text-gray-400 text-xs sm:text-sm font-black">
                           {isExpanded ? "▲" : "▼"}
                         </span>
                       </div>
@@ -152,7 +152,7 @@ function WorkoutPage() {
 
                     {/* EXPANDABLE DETAILS */}
                     {isExpanded && (
-                      <div className="pt-4 border-t border-gray-800/80 space-y-4">
+                      <div className="pt-4 border-t border-gray-800/80 space-y-4" onClick={(e) => e.stopPropagation()}>
                         {/* VISUAL PROCEDURE */}
                         <div className="space-y-2">
                           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Visual Procedure:</p>
@@ -161,7 +161,7 @@ function WorkoutPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-900/90 p-3 rounded-xl border border-gray-800/60">
                               {ex.images.map((imgUrl, imgIdx) => (
                                 <div key={imgIdx} className="flex flex-col items-center">
-                                  <div className="h-48 w-full flex items-center justify-center overflow-hidden rounded-lg bg-slate-950 p-2 border border-gray-800/40">
+                                  <div className="h-36 sm:h-48 w-full flex items-center justify-center overflow-hidden rounded-lg bg-slate-950 p-2 border border-gray-800/40">
                                     <img
                                       src={imgUrl}
                                       alt={`${ex.name} step ${imgIdx + 1}`}
@@ -181,8 +181,8 @@ function WorkoutPage() {
                             </div>
                           ) : (
                             /* GRAPHIC PLACEHOLDER */
-                            <div className="bg-slate-900/80 p-4 rounded-xl border border-gray-800/60 flex flex-col items-center justify-center text-center py-6 gap-3">
-                              <div className="h-44 w-full max-w-sm flex items-center justify-center overflow-hidden rounded-lg bg-slate-950 p-2 border border-gray-800/40">
+                            <div className="bg-slate-900/80 p-4 rounded-xl border border-gray-800/60 flex flex-col items-center justify-center text-center py-4 sm:py-6 gap-2 sm:gap-3">
+                              <div className="h-36 sm:h-44 w-full max-w-sm flex items-center justify-center overflow-hidden rounded-lg bg-slate-950 p-2 border border-gray-800/40">
                                 <img
                                   src={FALLBACK_IMAGE}
                                   alt={`${ex.name} exercise guide`}
@@ -201,7 +201,7 @@ function WorkoutPage() {
                         {/* STEP-BY-STEP INSTRUCTIONS */}
                         <div className="space-y-2">
                           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Step-by-Step Execution:</p>
-                          <ol className="text-sm text-gray-200 list-decimal list-inside space-y-2 leading-relaxed">
+                          <ol className="text-xs sm:text-sm text-gray-200 list-decimal list-inside space-y-1.5 sm:space-y-2 leading-relaxed">
                             {ex.instructions.map((step, idx) => (
                               <li key={idx} className="pl-1">{step}</li>
                             ))}

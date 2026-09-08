@@ -113,20 +113,20 @@ function Dashboard() {
   const weightDiff = Math.abs(rawDiff).toFixed(1);
 
   return (
-    <div className="p-6 md:p-8 space-y-8 text-white bg-[#0a1424] min-h-screen">
+    <div className="p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 text-white bg-[#0a1424] min-h-screen">
       
       <DailyCheckInModal onUpdateComplete={fetchUserData} />
 
       {/* MACRO METRIC CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-[#131f37] border border-cyan-500/20 rounded-2xl p-5 shadow-lg">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-[#131f37] border border-cyan-500/20 rounded-2xl p-4 sm:p-5 shadow-lg">
           <div className="flex justify-between items-center">
             <span className="text-xs font-black text-gray-300 uppercase tracking-widest">CALORIES</span>
             <span className="text-xs font-black text-[#0a1424] bg-cyan-400 px-2.5 py-1 rounded-md shadow">
               Target: {metrics.calories}
             </span>
           </div>
-          <p className="text-3xl font-black mt-3 text-white">
+          <p className="text-2xl sm:text-3xl font-black mt-3 text-white">
             {metrics.currentCalories} <span className="text-sm font-semibold text-gray-400">kcal</span>
           </p>
           <div className="w-full bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
@@ -134,14 +134,14 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-[#131f37] border border-purple-500/20 rounded-2xl p-5 shadow-lg">
+        <div className="bg-[#131f37] border border-purple-500/20 rounded-2xl p-4 sm:p-5 shadow-lg">
           <div className="flex justify-between items-center">
             <span className="text-xs font-black text-gray-300 uppercase tracking-widest">PROTEIN</span>
             <span className="text-xs font-black text-white bg-purple-600 px-2.5 py-1 rounded-md shadow">
               Target: {metrics.protein}g
             </span>
           </div>
-          <p className="text-3xl font-black mt-3 text-white">
+          <p className="text-2xl sm:text-3xl font-black mt-3 text-white">
             {metrics.currentProtein} <span className="text-sm font-semibold text-gray-400">g</span>
           </p>
           <div className="w-full bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
@@ -149,14 +149,14 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-[#131f37] border border-pink-500/20 rounded-2xl p-5 shadow-lg">
+        <div className="bg-[#131f37] border border-pink-500/20 rounded-2xl p-4 sm:p-5 shadow-lg">
           <div className="flex justify-between items-center">
             <span className="text-xs font-black text-gray-300 uppercase tracking-widest">CARBS</span>
             <span className="text-xs font-black text-white bg-pink-600 px-2.5 py-1 rounded-md shadow">
               Target: {metrics.carbs}g
             </span>
           </div>
-          <p className="text-3xl font-black mt-3 text-white">
+          <p className="text-2xl sm:text-3xl font-black mt-3 text-white">
             {metrics.currentCarbs} <span className="text-sm font-semibold text-gray-400">g</span>
           </p>
           <div className="w-full bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
@@ -164,14 +164,14 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-[#131f37] border border-blue-500/20 rounded-2xl p-5 shadow-lg">
+        <div className="bg-[#131f37] border border-blue-500/20 rounded-2xl p-4 sm:p-5 shadow-lg">
           <div className="flex justify-between items-center">
             <span className="text-xs font-black text-gray-300 uppercase tracking-widest">WATER TARGET</span>
             <span className="text-xs font-black text-[#0a1424] bg-blue-400 px-2.5 py-1 rounded-md shadow">
               Target: {metrics.waterTarget}
             </span>
           </div>
-          <p className="text-3xl font-black mt-3 text-white">
+          <p className="text-2xl sm:text-3xl font-black mt-3 text-white">
             {metrics.currentWater} <span className="text-sm font-semibold text-gray-400">Glasses</span>
           </p>
           <div className="w-full bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
@@ -181,16 +181,16 @@ function Dashboard() {
       </div>
 
       {/* WEIGHT PROGRESS CHART */}
-      <div className="bg-[#131f37] border border-slate-800 rounded-2xl p-6 shadow-2xl">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+      <div className="bg-[#131f37] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-2xl">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
           <div>
-            <h2 className="text-xl font-bold text-white tracking-wide">Physical Improvement & Weight Progress</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-white tracking-wide">Physical Improvement & Weight Progress</h2>
             <p className="text-xs text-gray-400 mt-0.5">
               Tracking physical transformation toward your ideal weight target
             </p>
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <span className="text-xs font-black bg-slate-800 text-gray-300 px-3 py-1.5 rounded-xl border border-slate-700">
               Current: <strong className="text-white font-black">{metrics.currentWeight} kg</strong>
             </span>
@@ -203,27 +203,26 @@ function Dashboard() {
           </div>
         </div>
         
-        <div className="h-80 w-full bg-[#0a1424]/60 rounded-xl p-4 border border-slate-800/80">
+        <div className="h-64 sm:h-80 w-full bg-[#0a1424]/60 rounded-xl p-2 sm:p-4 border border-slate-800/80">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={weightHistory} margin={{ top: 15, right: 30, left: 0, bottom: 5 }}>
+            <LineChart data={weightHistory} margin={{ top: 15, right: 15, left: -20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
               <XAxis 
                 dataKey="period" 
                 stroke="#94a3b8" 
-                fontSize={13} 
+                fontSize={11} 
                 fontWeight="bold"
                 tickLine={false} 
                 axisLine={{ stroke: '#334155' }} 
               />
               
-              {/* Dynamic 0 - 100 Axis Range */}
               <YAxis 
                 stroke="#94a3b8" 
-                fontSize={12} 
+                fontSize={11} 
                 domain={[0, 100]}
                 tickLine={false} 
                 axisLine={{ stroke: '#334155' }} 
-                unit=" kg"
+                unit="kg"
               />
               
               <Tooltip
@@ -232,10 +231,11 @@ function Dashboard() {
                   backgroundColor: "#0f172a",
                   borderColor: "#334155",
                   borderRadius: "10px",
-                  color: "#fff"
+                  color: "#fff",
+                  fontSize: "12px"
                 }}
               />
-              <Legend wrapperStyle={{ paddingTop: '15px' }} iconType="circle" />
+              <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }} iconType="circle" />
               
               <ReferenceLine 
                 y={metrics.targetWeight} 
@@ -250,8 +250,8 @@ function Dashboard() {
                 dataKey="Weight" 
                 stroke="#38bdf8" 
                 strokeWidth={3}
-                dot={{ fill: '#38bdf8', r: 6 }}
-                activeDot={{ r: 8, fill: '#67e8f9' }}
+                dot={{ fill: '#38bdf8', r: 5 }}
+                activeDot={{ r: 7, fill: '#67e8f9' }}
               />
               <Line 
                 name="Ideal Goal (kg)" 
@@ -268,18 +268,18 @@ function Dashboard() {
       </div>
 
       {/* WORKOUT & MESS DIET PANELS */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-[#131f37] border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+        <div className="bg-[#131f37] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-2xl space-y-4 sm:space-y-6">
           <div className="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
-              <span className="text-[11px] font-black text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/30 uppercase tracking-widest">
+              <span className="text-[10px] sm:text-[11px] font-black text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-lg border border-cyan-500/30 uppercase tracking-widest">
                 {todayRoutine?.day || 'TODAY'}
               </span>
-              <h2 className="text-xl font-black text-white mt-2 uppercase tracking-wide">
+              <h2 className="text-lg sm:text-xl font-black text-white mt-2 uppercase tracking-wide">
                 {todayRoutine?.focus ? `${todayRoutine.focus} SPLIT` : 'WORKOUT SPLIT'}
               </h2>
             </div>
-            <span className="text-xs font-bold text-gray-300 bg-[#0a1424] px-3.5 py-1.5 rounded-xl border border-slate-800">
+            <span className="text-xs font-bold text-gray-300 bg-[#0a1424] px-3 py-1.5 rounded-xl border border-slate-800">
               {todayRoutine?.exercises?.length || 0} Exercises
             </span>
           </div>
@@ -289,16 +289,16 @@ function Dashboard() {
               Loading workout routines...
             </div>
           ) : (
-            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1">
+            <div className="space-y-3 sm:space-y-4 max-h-[400px] sm:max-h-[500px] overflow-y-auto pr-1">
               {todayRoutine?.exercises?.map((exercise, idx) => (
-                <div key={idx} className="bg-[#0a1424] border border-slate-800 rounded-xl p-4 flex items-center justify-between shadow-md">
+                <div key={idx} className="bg-[#0a1424] border border-slate-800 rounded-xl p-3 sm:p-4 flex items-center justify-between shadow-md">
                   <div>
-                    <h3 className="text-sm font-bold text-white">{exercise.name || 'Exercise'}</h3>
-                    <p className="text-xs text-gray-400 mt-0.5">Target: <span className="text-cyan-400 font-semibold">{exercise.equipment || 'General'}</span></p>
+                    <h3 className="text-xs sm:text-sm font-bold text-white">{exercise.name || 'Exercise'}</h3>
+                    <p className="text-[11px] sm:text-xs text-gray-400 mt-0.5">Target: <span className="text-cyan-400 font-semibold">{exercise.equipment || 'General'}</span></p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold bg-[#131f37] text-gray-300 px-3 py-1 rounded-lg border border-slate-800">{exercise.sets || '3'} Sets</span>
-                    <span className="text-xs font-bold bg-cyan-500/10 text-cyan-400 px-3 py-1 rounded-lg border border-cyan-500/30">{exercise.reps || '12-15'}</span>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="text-[11px] sm:text-xs font-bold bg-[#131f37] text-gray-300 px-2.5 py-1 rounded-lg border border-slate-800">{exercise.sets || '3'} Sets</span>
+                    <span className="text-[11px] sm:text-xs font-bold bg-cyan-500/10 text-cyan-400 px-2.5 py-1 rounded-lg border border-cyan-500/30">{exercise.reps || '12-15'}</span>
                   </div>
                 </div>
               ))}
@@ -306,26 +306,26 @@ function Dashboard() {
           )}
         </div>
 
-        <div className="bg-[#131f37] border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
+        <div className="bg-[#131f37] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-2xl space-y-4 sm:space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-white tracking-wide">Today's Mess Diet Advisor</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-white tracking-wide">Today's Mess Diet Advisor</h2>
             <p className="text-xs font-bold text-cyan-400 mt-1 uppercase tracking-wider">
               PROFILE TARGET: {metrics.goal}
             </p>
           </div>
 
-          <div className="space-y-4">
-            <div className="bg-[#0a1424] border border-slate-800 rounded-xl p-4 flex justify-between items-center shadow-md">
-              <h4 className="text-sm font-bold text-white">Breakfast <span className="text-xs text-gray-400 font-normal ml-1">(460 Kcal)</span></h4>
-              <span className="text-sm font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/20">P: 16.3g</span>
+          <div className="space-y-3 sm:space-y-4">
+            <div className="bg-[#0a1424] border border-slate-800 rounded-xl p-3.5 sm:p-4 flex justify-between items-center shadow-md">
+              <h4 className="text-xs sm:text-sm font-bold text-white">Breakfast <span className="text-xs text-gray-400 font-normal ml-1">(460 Kcal)</span></h4>
+              <span className="text-xs sm:text-sm font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-lg border border-cyan-500/20">P: 16.3g</span>
             </div>
-            <div className="bg-[#0a1424] border border-slate-800 rounded-xl p-4 flex justify-between items-center shadow-md">
-              <h4 className="text-sm font-bold text-white">Lunch <span className="text-xs text-gray-400 font-normal ml-1">(454 Kcal)</span></h4>
-              <span className="text-sm font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/20">P: 14.1g</span>
+            <div className="bg-[#0a1424] border border-slate-800 rounded-xl p-3.5 sm:p-4 flex justify-between items-center shadow-md">
+              <h4 className="text-xs sm:text-sm font-bold text-white">Lunch <span className="text-xs text-gray-400 font-normal ml-1">(454 Kcal)</span></h4>
+              <span className="text-xs sm:text-sm font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-lg border border-cyan-500/20">P: 14.1g</span>
             </div>
-            <div className="bg-[#0a1424] border border-slate-800 rounded-xl p-4 flex justify-between items-center shadow-md">
-              <h4 className="text-sm font-bold text-white">Dinner <span className="text-xs text-gray-400 font-normal ml-1">(657 Kcal)</span></h4>
-              <span className="text-sm font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/20">P: 23.1g</span>
+            <div className="bg-[#0a1424] border border-slate-800 rounded-xl p-3.5 sm:p-4 flex justify-between items-center shadow-md">
+              <h4 className="text-xs sm:text-sm font-bold text-white">Dinner <span className="text-xs text-gray-400 font-normal ml-1">(657 Kcal)</span></h4>
+              <span className="text-xs sm:text-sm font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-lg border border-cyan-500/20">P: 23.1g</span>
             </div>
           </div>
         </div>

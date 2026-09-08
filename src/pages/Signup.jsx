@@ -1,3 +1,4 @@
+// src/pages/Signup.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/authService";
@@ -49,68 +50,87 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a1627]">
+    <div className="min-h-screen flex items-center justify-center bg-[#0a1627] p-4 sm:p-6">
       <form
         onSubmit={handleSubmit}
-        className="bg-[#0a1627] p-8 rounded-lg shadow-lg w-full max-w-md"
+        className="bg-[#17223b] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-800 shadow-2xl w-full max-w-md"
       >
-        <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
-        <p className="text-gray-400 mb-6">Sign up to get started.</p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2 tracking-tight">Create Account</h2>
+        <p className="text-xs sm:text-sm text-gray-400 mb-6">Sign up to get started.</p>
         
-        <label className="block text-gray-300 mb-1">Full Name</label>
-        <input
-          type="text"
-          className="w-full p-3 mb-4 rounded bg-[#17223b] text-white placeholder-gray-400 focus:outline-none"
-          placeholder="Enter your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />  
+        <div className="space-y-3.5 sm:space-y-4">
+          <div>
+            <label className="block text-gray-300 text-xs sm:text-sm font-semibold mb-1.5">Full Name</label>
+            <input
+              type="text"
+              className="w-full p-3 sm:p-3.5 rounded-xl bg-[#0a1627] border border-gray-700 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-        <label className="block text-gray-300 mb-1">Email Address</label>
-        <input
-          type="email"
-          className="w-full p-3 mb-4 rounded bg-[#17223b] text-white placeholder-gray-400 focus:outline-none"
-          placeholder="you@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+          <div>
+            <label className="block text-gray-300 text-xs sm:text-sm font-semibold mb-1.5">Email Address</label>
+            <input
+              type="email"
+              className="w-full p-3 sm:p-3.5 rounded-xl bg-[#0a1627] border border-gray-700 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <label className="block text-gray-300 mb-1">Password</label>
-        <input
-          type="password"
-          className="w-full p-3 mb-4 rounded bg-[#17223b] text-white placeholder-gray-400 focus:outline-none"
-          placeholder="********"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <div>
+            <label className="block text-gray-300 text-xs sm:text-sm font-semibold mb-1.5">Password</label>
+            <input
+              type="password"
+              className="w-full p-3 sm:p-3.5 rounded-xl bg-[#0a1627] border border-gray-700 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <label className="block text-gray-300 mb-1">Confirm Password</label>
-        <input
-          type="password"
-          className="w-full p-3 mb-2 rounded bg-[#17223b] text-white placeholder-gray-400 focus:outline-none"
-          placeholder="********"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
+          <div>
+            <label className="block text-gray-300 text-xs sm:text-sm font-semibold mb-1.5">Confirm Password</label>
+            <input
+              type="password"
+              className="w-full p-3 sm:p-3.5 rounded-xl bg-[#0a1627] border border-gray-700 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"
+              placeholder="••••••••"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+        </div>
 
-        {error && <div className="text-red-400 mb-2 text-sm">{error}</div>}
-        {success && <div className="text-green-400 mb-2 text-sm">{success}</div>}
+        {error && (
+          <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs sm:text-sm rounded-xl font-medium">
+            ⚠ {error}
+          </div>
+        )}
+        
+        {success && (
+          <div className="mt-4 p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs sm:text-sm rounded-xl font-medium">
+            ✓ {success}
+          </div>
+        )}
 
         <button
           type="submit"
-          className="w-full py-3 rounded bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold text-lg mb-4 hover:opacity-90 transition"
+          className="w-full mt-6 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 text-slate-950 font-black text-base hover:opacity-90 active:scale-[0.98] transition shadow-lg shadow-cyan-500/10"
         >
           Sign Up
         </button>
 
-        <div className="text-center text-gray-400">
+        <div className="mt-6 text-center text-xs sm:text-sm text-gray-400">
           Already have an account?{' '}
           <span 
-            className="text-white font-semibold cursor-pointer hover:underline" 
+            className="text-cyan-400 font-bold cursor-pointer hover:underline" 
             onClick={() => navigate('/')}
           >
             Sign in

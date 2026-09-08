@@ -103,27 +103,27 @@ function Profile() {
 
   if (loading && !profileData) {
     return (
-      <div className="flex items-center justify-center p-16">
-        <p className="text-gray-300 text-lg animate-pulse font-mono font-medium">Accessing Core Databases...</p>
+      <div className="flex items-center justify-center p-8 sm:p-16">
+        <p className="text-gray-300 text-sm sm:text-lg animate-pulse font-mono font-medium">Accessing Core Databases...</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 md:p-10 max-w-4xl mx-auto space-y-8">
+    <div className="p-4 sm:p-6 md:p-10 max-w-4xl mx-auto space-y-6 sm:space-y-8">
 
       {/* PROFILE HEADER PANEL */}
-      <div className="bg-[#17223b] border border-gray-800 rounded-3xl p-8 shadow-2xl flex flex-wrap items-center justify-between gap-6">
-        <div className="flex items-center gap-6">
-          <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-black text-2xl shadow-inner">
+      <div className="bg-[#17223b] border border-gray-800 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6">
+        <div className="flex items-center gap-4 sm:gap-6">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-black text-xl sm:text-2xl shadow-inner shrink-0">
             {profileData?.name ? profileData.name[0].toUpperCase() : 'U'}
           </div>
           <div>
-            <h1 className="text-3xl font-black text-white tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-black text-white tracking-tight">
               {profileData?.name || 'Fitness User'}
             </h1>
-            <p className="text-sm text-gray-400 mt-1 font-medium">
-              Account Status: <span className="text-cyan-400 font-bold uppercase tracking-wider text-xs bg-cyan-400/10 px-3 py-1 rounded-lg border border-cyan-500/20">Authorized Matrix</span>
+            <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">
+              Account Status: <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px] sm:text-xs bg-cyan-400/10 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-lg border border-cyan-500/20 inline-block mt-0.5 sm:mt-0">Authorized Matrix</span>
             </p>
           </div>
         </div>
@@ -131,7 +131,7 @@ function Profile() {
         {!isEditing && (
           <button 
             onClick={() => setIsEditing(true)}
-            className="px-6 py-3 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm font-bold rounded-2xl hover:bg-cyan-500/20 transition-all duration-150 shadow-md"
+            className="w-full sm:w-auto px-5 py-2.5 sm:px-6 sm:py-3 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs sm:text-sm font-bold rounded-xl sm:rounded-2xl hover:bg-cyan-500/20 transition-all duration-150 shadow-md"
           >
             Change Parameters
           </button>
@@ -140,45 +140,45 @@ function Profile() {
 
       {/* FEEDBACK STATUS ALERTS */}
       {successMessage && (
-        <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm rounded-2xl font-semibold">
+        <div className="p-3.5 sm:p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs sm:text-sm rounded-xl sm:rounded-2xl font-semibold">
           ✓ {successMessage}
         </div>
       )}
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-2xl font-semibold">
+        <div className="p-3.5 sm:p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs sm:text-sm rounded-xl sm:rounded-2xl font-semibold">
           ⚠ {error}
         </div>
       )}
 
       {/* SPECIFICATIONS GRID BOX */}
-      <div className="bg-[#17223b] border border-gray-800 rounded-3xl p-8 shadow-2xl space-y-6">
-        <h2 className="text-base font-extrabold text-white uppercase tracking-wider border-b border-gray-800 pb-3">
+      <div className="bg-[#17223b] border border-gray-800 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl space-y-4 sm:space-y-6">
+        <h2 className="text-sm sm:text-base font-extrabold text-white uppercase tracking-wider border-b border-gray-800 pb-3">
           {isEditing ? "Modify Fitness Metrics Layout" : "Biometric Target Parameters"}
         </h2>
 
         {isEditing ? (
-          <form onSubmit={handleSaveProfile} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <form onSubmit={handleSaveProfile} className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 text-sm">
 
-              <div className="space-y-2">
-                <label className="text-gray-300 font-bold uppercase text-xs tracking-wider">Age Group (Years)</label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <label className="text-gray-300 font-bold uppercase text-[10px] sm:text-xs tracking-wider">Age Group (Years)</label>
                 <input 
                   type="number"
                   name="age"
                   value={formData.age}
                   onChange={handleInputChange}
-                  className="w-full bg-[#0a1627] border border-gray-700 rounded-2xl p-4 text-white text-base focus:outline-none focus:border-cyan-400 transition-colors"
+                  className="w-full bg-[#0a1627] border border-gray-700 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-white text-sm sm:text-base focus:outline-none focus:border-cyan-400 transition-colors"
                   required
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-gray-300 font-bold uppercase text-xs tracking-wider">Gender Allocation</label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <label className="text-gray-300 font-bold uppercase text-[10px] sm:text-xs tracking-wider">Gender Allocation</label>
                 <select 
                   name="gender"
                   value={formData.gender}
                   onChange={handleInputChange}
-                  className="w-full bg-[#0a1627] border border-gray-700 rounded-2xl p-4 text-white text-base focus:outline-none focus:border-cyan-400 transition-colors capitalize"
+                  className="w-full bg-[#0a1627] border border-gray-700 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-white text-sm sm:text-base focus:outline-none focus:border-cyan-400 transition-colors capitalize"
                   required
                 >
                   <option value="">Select Gender</option>
@@ -188,37 +188,37 @@ function Profile() {
                 </select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-gray-300 font-bold uppercase text-xs tracking-wider">Body Weight (kg)</label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <label className="text-gray-300 font-bold uppercase text-[10px] sm:text-xs tracking-wider">Body Weight (kg)</label>
                 <input 
                   type="number"
                   step="0.1"
                   name="weight"
                   value={formData.weight}
                   onChange={handleInputChange}
-                  className="w-full bg-[#0a1627] border border-gray-700 rounded-2xl p-4 text-white text-base focus:outline-none focus:border-cyan-400 transition-colors"
+                  className="w-full bg-[#0a1627] border border-gray-700 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-white text-sm sm:text-base focus:outline-none focus:border-cyan-400 transition-colors"
                   required
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-gray-300 font-bold uppercase text-xs tracking-wider">Height (cm)</label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <label className="text-gray-300 font-bold uppercase text-[10px] sm:text-xs tracking-wider">Height (cm)</label>
                 <input 
                   type="number"
                   name="height"
                   value={formData.height}
                   onChange={handleInputChange}
-                  className="w-full bg-[#0a1627] border border-gray-700 rounded-2xl p-4 text-white text-base focus:outline-none focus:border-cyan-400 transition-colors"
+                  className="w-full bg-[#0a1627] border border-gray-700 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-white text-sm sm:text-base focus:outline-none focus:border-cyan-400 transition-colors"
                 />
               </div>
 
-              <div className="space-y-2 md:col-span-2">
-                <label className="text-gray-300 font-bold uppercase text-xs tracking-wider">Target Track Protocol</label>
+              <div className="space-y-1.5 sm:space-y-2 md:col-span-2">
+                <label className="text-gray-300 font-bold uppercase text-[10px] sm:text-xs tracking-wider">Target Track Protocol</label>
                 <select 
                   name="target"
                   value={formData.target}
                   onChange={handleInputChange}
-                  className="w-full bg-[#0a1627] border border-gray-700 rounded-2xl p-4 text-cyan-400 font-black text-base focus:outline-none focus:border-cyan-400 transition-colors uppercase"
+                  className="w-full bg-[#0a1627] border border-gray-700 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-cyan-400 font-black text-sm sm:text-base focus:outline-none focus:border-cyan-400 transition-colors uppercase"
                   required
                 >
                   <option value="maintenance">Maintenance</option>
@@ -230,56 +230,56 @@ function Profile() {
 
             </div>
 
-            <div className="flex justify-end gap-3 pt-4 border-t border-gray-800 text-sm font-bold">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3 pt-4 border-t border-gray-800 text-xs sm:text-sm font-bold">
               <button 
                 type="button"
                 onClick={() => setIsEditing(false)}
-                className="px-6 py-3 bg-transparent text-gray-400 hover:text-white transition"
+                className="w-full sm:w-auto px-6 py-2.5 sm:py-3 bg-transparent text-gray-400 hover:text-white transition"
               >
                 Cancel
               </button>
               <button 
                 type="submit"
-                className="px-6 py-3 bg-cyan-500 text-slate-950 font-extrabold rounded-2xl hover:bg-cyan-400 transition shadow-xl shadow-cyan-500/20"
+                className="w-full sm:w-auto px-6 py-2.5 sm:py-3 bg-cyan-500 text-slate-950 font-extrabold rounded-xl sm:rounded-2xl hover:bg-cyan-400 transition shadow-xl shadow-cyan-500/20"
               >
                 Save Parameters
               </button>
             </div>
           </form>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-5">
 
-            <div className="bg-[#0a1627] p-5 rounded-2xl border border-gray-800">
-              <span className="text-gray-400 block uppercase font-bold text-xs">Age Group</span>
-              <span className="text-white text-xl font-bold mt-1 block">
+            <div className="bg-[#0a1627] p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-gray-800">
+              <span className="text-gray-400 block uppercase font-bold text-[10px] sm:text-xs">Age Group</span>
+              <span className="text-white text-lg sm:text-xl font-bold mt-0.5 sm:mt-1 block">
                 {profileData?.age !== undefined ? `${profileData.age} years` : 'N/A'}
               </span>
             </div>
 
-            <div className="bg-[#0a1627] p-5 rounded-2xl border border-gray-800">
-              <span className="text-gray-400 block uppercase font-bold text-xs">Gender Allocation</span>
-              <span className="text-white text-xl font-bold mt-1 block capitalize">
+            <div className="bg-[#0a1627] p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-gray-800">
+              <span className="text-gray-400 block uppercase font-bold text-[10px] sm:text-xs">Gender Allocation</span>
+              <span className="text-white text-lg sm:text-xl font-bold mt-0.5 sm:mt-1 block capitalize">
                 {profileData?.gender || 'N/A'}
               </span>
             </div>
 
-            <div className="bg-[#0a1627] p-5 rounded-2xl border border-gray-800">
-              <span className="text-gray-400 block uppercase font-bold text-xs">Body Weight</span>
-              <span className="text-cyan-400 text-xl font-black mt-1 block">
+            <div className="bg-[#0a1627] p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-gray-800">
+              <span className="text-gray-400 block uppercase font-bold text-[10px] sm:text-xs">Body Weight</span>
+              <span className="text-cyan-400 text-lg sm:text-xl font-black mt-0.5 sm:mt-1 block">
                 {profileData?.weight !== undefined ? `${profileData.weight} kg` : 'N/A'}
               </span>
             </div>
 
-            <div className="bg-[#0a1627] p-5 rounded-2xl border border-gray-800">
-              <span className="text-gray-400 block uppercase font-bold text-xs">Height</span>
-              <span className="text-white text-xl font-bold mt-1 block">
+            <div className="bg-[#0a1627] p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-gray-800">
+              <span className="text-gray-400 block uppercase font-bold text-[10px] sm:text-xs">Height</span>
+              <span className="text-white text-lg sm:text-xl font-bold mt-0.5 sm:mt-1 block">
                 {profileData?.height !== undefined ? `${profileData.height} cm` : 'N/A'}
               </span>
             </div>
 
-            <div className="bg-[#0a1627] p-5 rounded-2xl border border-gray-800 md:col-span-2">
-              <span className="text-gray-400 block uppercase font-bold text-xs">Target Track Protocol</span>
-              <span className="text-purple-400 text-xl font-black mt-1 block uppercase">
+            <div className="bg-[#0a1627] p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-gray-800 md:col-span-2">
+              <span className="text-gray-400 block uppercase font-bold text-[10px] sm:text-xs">Target Track Protocol</span>
+              <span className="text-purple-400 text-lg sm:text-xl font-black mt-0.5 sm:mt-1 block uppercase">
                 {profileData?.target || profileData?.goal || 'MAINTENANCE'}
               </span>
             </div>
@@ -288,7 +288,7 @@ function Profile() {
         )}
       </div>
 
-      {/* PROGRESS CHART COMPONENT - Passes userData and refresh Key */}
+      {/* PROGRESS CHART COMPONENT */}
       <ProgressTracker userData={profileData} refreshKey={refreshKey} />
 
     </div>
