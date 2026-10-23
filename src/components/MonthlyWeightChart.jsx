@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import API from "../api/axios";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
+import Button from "./Button";
 
 function MonthlyWeightChart() {
   const [logs, setLogs] = useState([]);
@@ -9,6 +10,7 @@ function MonthlyWeightChart() {
   const [showModal, setShowModal] = useState(false);
   const [newWeight, setNewWeight] = useState("");
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     fetchWeightHistory();
@@ -40,6 +42,7 @@ function MonthlyWeightChart() {
     e.preventDefault();
     if (!newWeight || isNaN(newWeight)) return;
 
+    setSubmitting(true);
     try {
       const res = await API.post("/user/log-monthly-weight", {
         weight: parseFloat(newWeight)
@@ -60,6 +63,8 @@ function MonthlyWeightChart() {
       setNewWeight("");
     } catch (err) {
       console.error("Failed to submit monthly weight:", err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -141,12 +146,13 @@ function MonthlyWeightChart() {
                 >
                   Cancel
                 </button>
-                <button
+                <Button
                   type="submit"
+                  loading={submitting}
                   className="px-4 py-2 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-cyan-400 transition"
                 >
-                  Save & Update Chart
-                </button>
+                  {submitting ? 'Saving...' : 'Save & Update Chart'}
+                </Button>
               </div>
             </form>
           </div>

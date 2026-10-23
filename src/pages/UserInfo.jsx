@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "../services/authService.js";
+import Button from "../components/Button";
 
 const UserInfo = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const UserInfo = () => {
     goal: "maintenance", // options: weight-loss, muscle-gain, maintenance
     activityLevel: "moderate",
   });
+  const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
 
@@ -22,6 +24,7 @@ const UserInfo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     try {
       // 1. Calculate BMI for the AI
       const heightInMeters = formData.height / 100;
@@ -44,6 +47,8 @@ const UserInfo = () => {
 
     } catch (err) {
       alert("Error saving profile: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -123,12 +128,13 @@ const UserInfo = () => {
           </div>
 
           {/* Submit Button */}
-          <button 
+          <Button
             type="submit" 
+            loading={loading}
             className="md:col-span-2 mt-2 sm:mt-4 bg-gradient-to-r from-blue-500 to-cyan-400 py-3.5 sm:py-4 rounded-xl font-black text-slate-950 text-base sm:text-lg hover:opacity-90 active:scale-[0.98] transition-all shadow-lg shadow-cyan-500/10"
           >
-            Generate My Fitness Plan →
-          </button>
+            {loading ? "Generating Your Fitness Plan..." : "Generate My Fitness Plan →"}
+          </Button>
         </form>
       </div>
     </div>

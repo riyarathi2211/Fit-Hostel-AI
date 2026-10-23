@@ -2,10 +2,15 @@
 // dns.setDefaultResultOrder('ipv4first');
 // dns.setServers(['8.8.8.8', '8.8.4.4']);
 
+import dns from 'dns';
+dns.setDefaultResultOrder('ipv4first');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
+// ... rest of your code
 
 // Routes Imports
 import authRoutes from "./routes/auth.js";
@@ -41,8 +46,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"]
 };
 
-// Enable preflight across all routes
-app.options("*", cors(corsOptions));
+// Enable CORS globally (this automatically handles preflight OPTIONS requests)
 app.use(cors(corsOptions));
 
 app.use(express.json());

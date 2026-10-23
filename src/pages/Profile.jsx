@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import API from '../api/axios';
 import ProgressTracker from '../components/ProgressTracker.jsx';
+import Button from '../components/Button';
 
 function Profile() {
   const [profileData, setProfileData] = useState(null);
@@ -238,12 +239,13 @@ function Profile() {
               >
                 Cancel
               </button>
-              <button 
+              <Button
                 type="submit"
+                loading={loading}
                 className="w-full sm:w-auto px-6 py-2.5 sm:py-3 bg-cyan-500 text-slate-950 font-extrabold rounded-xl sm:rounded-2xl hover:bg-cyan-400 transition shadow-xl shadow-cyan-500/20"
               >
-                Save Parameters
-              </button>
+                {loading ? 'Saving Parameters...' : 'Save Parameters'}
+              </Button>
             </div>
           </form>
         ) : (

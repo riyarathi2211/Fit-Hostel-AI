@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/authService";
+import Button from "../components/Button";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -10,6 +11,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,6 +22,7 @@ const Signup = () => {
       return;
     }
 
+    setLoading(true);
     try {
       const data = await registerUser({
         name,
@@ -46,6 +49,8 @@ const Signup = () => {
     } catch (err) {
       setError(err.message);
       setSuccess("");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,12 +125,13 @@ const Signup = () => {
           </div>
         )}
 
-        <button
+        <Button
           type="submit"
-          className="w-full mt-6 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 text-slate-950 font-black text-base hover:opacity-90 active:scale-[0.98] transition shadow-lg shadow-cyan-500/10"
+          loading={loading}
+          className="w-full mt-6 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 text-slate-950 font-black text-base hover:opacity-90 active:scale-[0.98] transition shadow-lg shadow-cyan-500/10 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Sign Up
-        </button>
+          {loading ? "Creating Account..." : "Sign Up"}
+        </Button>
 
         <div className="mt-6 text-center text-xs sm:text-sm text-gray-400">
           Already have an account?{' '}

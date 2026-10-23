@@ -1,6 +1,7 @@
 // src/components/ProgressTracker.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import API from '../api/axios';
+import Button from './Button';
 import {
   LineChart,
   Line,
@@ -118,13 +119,13 @@ function ProgressTracker({ userData, refreshKey }) {
             className="w-28 bg-[#0a1627] border border-gray-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400 transition-colors"
             required
           />
-          <button
+          <Button
             type="submit"
-            disabled={submitting}
+            loading={submitting}
             className="px-4 py-1.5 bg-cyan-500 text-slate-950 font-bold text-xs rounded-xl hover:bg-cyan-400 transition shadow-lg shadow-cyan-500/10 disabled:opacity-50"
           >
             {submitting ? 'Saving...' : '+ Log Entry'}
-          </button>
+          </Button>
         </form>
       </div>
 

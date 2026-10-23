@@ -1,6 +1,7 @@
 // src/components/ExerciseSearchEngine.jsx
 import React, { useState } from 'react';
 import { searchExercisesAdvanced } from '../services/workoutService';
+import Button from './Button';
 
 const ExerciseSearchEngine = () => {
   const [nameQuery, setNameQuery] = useState('');
@@ -82,9 +83,9 @@ const ExerciseSearchEngine = () => {
           </div>
         </div>
 
-        <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold py-3 rounded-xl transition-all tracking-wide disabled:opacity-40">
+        <Button type="submit" loading={loading} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold py-3 rounded-xl transition-all tracking-wide disabled:opacity-40">
           {loading ? "Querying Active Global Servers..." : "Run Active Parameter Filter"}
-        </button>
+        </Button>
       </form>
 
       {error && <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs p-3 rounded-xl mb-4 text-center">{error}</div>}

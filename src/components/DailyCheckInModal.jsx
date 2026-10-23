@@ -1,6 +1,7 @@
 // src/components/DailyCheckInModal.jsx
 import React, { useState, useEffect } from 'react';
 import API from '../api/axios';
+import Button from './Button';
 
 function DailyCheckInModal({ onUpdateComplete }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,7 @@ function DailyCheckInModal({ onUpdateComplete }) {
   const [height, setHeight] = useState('');
   const [feedback, setFeedback] = useState('Optimal');
   const [summaryData, setSummaryData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     checkEligibility();
@@ -44,6 +46,7 @@ function DailyCheckInModal({ onUpdateComplete }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await API.post('/progress/daily-checkin', { weight, height, feedback });
 
@@ -51,6 +54,8 @@ function DailyCheckInModal({ onUpdateComplete }) {
       window.dispatchEvent(new Event('workoutPlanUpdated'));
     } catch (err) {
       console.error('Check-in submission failed:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,12 +116,13 @@ function DailyCheckInModal({ onUpdateComplete }) {
                 </select>
               </div>
 
-              <button
+              <Button
                 type="submit"
+                loading={loading}
                 className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-cyan-500/20"
               >
-                Recalculate 1-Day Plan
-              </button>
+                {loading ? 'Recalculating 1-Day Plan...' : 'Recalculate 1-Day Plan'}
+              </Button>
             </form>
           </>
         ) : (
